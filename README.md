@@ -48,3 +48,34 @@ bash 执行时替换执行并注入代理环境变量：
   `git push` 被劫持到 xget 镜像（自建实例通常无 push 凭据，会验证失败）。
   因此本插件对 `git push` 命令跳过 git insteadOf 注入，只加速 clone/pull/
   fetch/ls-remote 等拉取操作；npm/pip/go/hf 的注入不受影响。
+
+## 安装
+
+复制下面的指令块给你的 DSH agent，它会自动完成安装：
+
+```text
+请安装 xget 加速插件（@local/dsh-xget）：
+
+1. 前置：本机已有 deepseek-harness 源码（本插件 link 依赖其中的 dsh-tools 包，
+   位于 <deepseek-harness>/packages/core/tools）。
+2. 先安装前置插件 shell-plugin（本插件依赖它提供的 shellMiddlewareSlot 与
+   bash 工具），见其仓库 README：
+   https://github.com/DoiiarX/dsh-shell-plugin
+3. 克隆本插件仓库：
+   git clone https://github.com/DoiiarX/dsh-xget-plugin
+   cd dsh-xget-plugin
+4. 安装依赖：pnpm install
+   （如果 package.json 里 dsh-tools 的 link 路径与你机器不符，改成你的
+   deepseek-harness 实际路径后再装。）
+5. 挂进 web profile：编辑 $HOME/.dsh/profiles/web/package.json，
+   在 dependencies 加 "@local/dsh-xget": "link:<本插件目录绝对路径>"，
+   在 dsh.profile.bundles 加 "@local/dsh-xget"。
+6. 在 profile 目录执行 pnpm install。
+7. 暴露设置页：在 <deepseek-harness>/packages/host/apiproxy/src/api-proxy.ts
+   的 WEB_SETTINGS_NAMESPACES 数组加 "xget"。
+8. 重 build host（pnpm run build:lib:host）并重启 web 进程。
+9. 验证：设置页出现「Xget 加速」小节，工具列表出现 xget_set。
+```
+
+本插件硬依赖 shell-plugin（需先安装）；它通过 shellMiddlewareSlot 注入
+代理环境变量，本身不提供 shell 工具。
