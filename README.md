@@ -3,6 +3,9 @@
 Xget 加速注入插件（host 级）。在设置页配置 xget 镜像实例，自动为 npm/npx、
 pip、git 命令注入加速代理环境变量。
 
+> 本插件属于 [dsh-plugins](https://github.com/DoiiarX/dsh-plugins) 合集，
+> 完整的自研插件索引见该仓库。
+
 ## 原理
 
 [xget](https://github.com/xixu-me/xget) 是开发者资源加速引擎——把原始 URL
