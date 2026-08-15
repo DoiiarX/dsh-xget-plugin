@@ -1,7 +1,7 @@
 /**
  * @local/dsh-xget —— xget 加速注入插件（host 级）。
  *
- * 参考 @local/dsh-cmd-plugin 的 shellMiddlewareSlot 与 @local/dsh-user-language
+ * 参考 @local/dsh-shell-plugin 的 shellMiddlewareSlot 与 @local/dsh-user-language
  * 的 settings 命名空间模式：
  *   - 注册 `xget` settings 命名空间（enabled / instance / npm / pypi / git），
  *     配置在设置页持久化，宿主在每次 shell 执行时按当前配置注入代理环境变量。

@@ -10,7 +10,7 @@ pip、git 命令注入加速代理环境变量。
 
 [xget](https://github.com/xixu-me/xget) 是开发者资源加速引擎——把原始 URL
 重写为镜像前缀（如 `registry.npmjs.org/...` → `<instance>/npm/...`）。本插件
-通过 cmd 插件（`@local/dsh-cmd-plugin`）的 `shellMiddlewareSlot` 注册
+通过 cmd 插件（`@local/dsh-shell-plugin`）的 `shellMiddlewareSlot` 注册
 middleware（owner = `xget`，set 模式同源覆盖 + disposer 自清理），在每次
 bash 执行时替换执行并注入代理环境变量：
 
@@ -35,7 +35,7 @@ bash 执行时替换执行并注入代理环境变量：
 
 ## 依赖
 
-- `@local/dsh-cmd-plugin`（提供 `shellMiddlewareSlot` 与 bash 工具）
+- `@local/dsh-shell-plugin`（提供 `shellMiddlewareSlot` 与 bash 工具）
 - 宿主 `settings` 服务
 
 ## 说明
