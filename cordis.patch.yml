@@ -1,0 +1,3 @@
+- insert:
+    - id: pn-xget
+      name: '@local/dsh-xget'
