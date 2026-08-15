@@ -122,7 +122,10 @@ export async function apply(ctx, config = {}) {
   const workspaceRoot = ctx.get('sandboxPolicy')?.workspaceRoot
 
   // 3) 构建代理环境变量
-  const buildProxyEnv = (cfg) => {
+  // skipGit：命令包含 git push 时为 true —— git 的 insteadOf 会同时重写
+  // fetch 与 push，导致 push 被劫持到 xget 镜像（自建实例通常无 push 凭据，
+  // 会报 401/验证失败）。所以 push 命令不注入 git insteadOf，只加速拉取。
+  const buildProxyEnv = (cfg, skipGit = false) => {
     const base = String(cfg.instance ?? DEFAULT_CONFIG.instance).replace(/\/+$/, '')
     const env = {}
     if (cfg.npm !== false) env.NPM_CONFIG_REGISTRY = `${base}/npm/`
@@ -130,7 +133,7 @@ export async function apply(ctx, config = {}) {
       env.PIP_INDEX_URL = `${base}/pypi/simple/`
       env.PIP_TRUSTED_HOST = base.replace(/^https?:\/\//, '')
     }
-    if (cfg.git !== false) {
+    if (cfg.git !== false && !skipGit) {
       env.GIT_CONFIG_COUNT = String(GIT_RULES.length)
       GIT_RULES.forEach(([host, prefix], index) => {
         env[`GIT_CONFIG_KEY_${index}`] = `url.${base}/${prefix}/.insteadOf`
@@ -161,7 +164,10 @@ export async function apply(ctx, config = {}) {
         if (sessionId !== undefined && sessionOverrides.has(sessionId) && sessionOverrides.get(sessionId) !== true) {
           return next()
         }
-        const proxyEnv = buildProxyEnv(cfg)
+        // git push 命令跳过 git insteadOf 注入（避免 push 被劫持到镜像）
+        // 匹配 "git [全局选项...] push"：独立词 git 后跟长短选项再跟 push 子命令
+        const skipGit = /\bgit\b(?:\s+(?:--[a-z0-9-]+(?:=[^\s]*)?|-[A-Za-z](?:\s+[^\s]+)?|\s*))+\s*push\b/.test(args.command)
+        const proxyEnv = buildProxyEnv(cfg, skipGit)
         if (proxyEnv === undefined) return next()
         if (bashExecutable === undefined) return next()
         const exe = resolveBash(bashExecutable)

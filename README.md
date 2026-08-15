@@ -41,3 +41,7 @@ bash 执行时替换执行并注入代理环境变量：
   因此采用替换执行：自建 spawn 并把代理 env 合并进子进程。
 - 插件升级时，set 模式同 owner 覆盖旧 middleware，disposer 随插件卸载
   自动清理，不残留旧版本。
+- **git push 豁免**：git 的 `insteadOf` 会同时重写 fetch 与 push，导致
+  `git push` 被劫持到 xget 镜像（自建实例通常无 push 凭据，会验证失败）。
+  因此本插件对 `git push` 命令跳过 git insteadOf 注入，只加速 clone/pull/
+  fetch/ls-remote 等拉取操作；npm/pip/go/hf 的注入不受影响。
