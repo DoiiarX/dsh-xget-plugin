@@ -1,5 +1,7 @@
 # @local/dsh-xget
 
+> [English](README.en.md) | [中文](README.md)
+
 Xget 加速注入插件（host 级）。在设置页配置 xget 镜像实例，自动为 npm/npx、
 pip、git 命令注入加速代理环境变量。
 
