@@ -1,12 +1,12 @@
 /**
- * @local/dsh-xget —— 浏览器设置页（Xget 加速配置）。
- * 与 @local/dsh-user-language 的 client.js 同一套加载模式：
+ * @doiiarx/dsh-xget —— 浏览器设置页（Xget 加速配置）。
+ * 与 @doiiarx/dsh-user-language 的 client.js 同一套加载模式：
  * `window.__ModuleLoader__.load` 注册浏览器端插件，绑定 `xget` settings
  * 命名空间，渲染设置在 sidebar 的「Xget 加速」小节。
  * 保存后宿主端 middleware 会在下一次 shell 执行按新配置注入代理环境变量。
  */
 window.__ModuleLoader__.load({
-  id: "@local/dsh-xget",
+  id: "@doiiarx/dsh-xget",
   factory: (require) => {
     const React = require("react");
     const inject = ["slots", "settingsScope", "connection", "remote"];

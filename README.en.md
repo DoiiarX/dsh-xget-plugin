@@ -1,4 +1,4 @@
-# @local/dsh-xget
+# @doiiarx/dsh-xget
 
 > [English](README.en.md) | [中文](README.md)
 
@@ -14,7 +14,7 @@ environment variables for npm/npx, pip, and git commands.
 engine — it rewrites the original URL into a mirror prefix (e.g.
 `registry.npmjs.org/...` → `<instance>/npm/...`). This plugin registers a
 middleware (owner = `xget`, set-mode same-owner replacement + disposer
-self-cleanup) through the shell plugin's (`@local/dsh-shell-plugin`)
+self-cleanup) through the shell plugin's (`@doiiarx/dsh-shell-plugin`)
 `shellMiddlewareSlot`, replacing execution on every bash run and injecting the
 proxy environment variables:
 
@@ -40,7 +40,7 @@ proxy environment variables:
 
 ## Dependencies
 
-- `@local/dsh-shell-plugin` (provides `shellMiddlewareSlot` and the bash tool)
+- `@doiiarx/dsh-shell-plugin` (provides `shellMiddlewareSlot` and the bash tool)
 - host `settings` service
 
 ## Notes
