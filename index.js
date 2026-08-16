@@ -18,7 +18,7 @@
  * 任何失败降级为诊断日志，不拖垮整个 profile。
  */
 
-export const name = 'pn-xget'
+export const name = 'dsh-xget'
 export const inject = ['settings', 'tools', 'shellMiddlewareSlot']
 
 import { defineTool } from '@deepseek-ai/dsh-tools'
@@ -50,8 +50,8 @@ const GIT_RULES = [
 
 function report(ctx, scope, error) {
   const detail = error instanceof Error ? `${error.name}: ${error.message}` : String(error)
-  const message = `[pn-xget] ${scope} unavailable: ${detail}`
-  const logger = ctx.root?.logger?.('pn-xget')
+  const message = `[dsh-xget] ${scope} unavailable: ${detail}`
+  const logger = ctx.root?.logger?.('dsh-xget')
   if (logger?.error) logger.error('%s', message)
   console.error(message)
 }
@@ -263,7 +263,7 @@ export async function apply(ctx, config = {}) {
     try {
       const dispose = slot.use(OWNER, middleware)
       if (typeof dispose === 'function') {
-        ctx.effect(() => dispose, 'pn-xget: middleware self-cleanup')
+        ctx.effect(() => dispose, 'dsh-xget: middleware self-cleanup')
       }
     } catch (error) {
       report(ctx, 'middleware-register', error)
@@ -317,7 +317,7 @@ export async function apply(ctx, config = {}) {
     report(ctx, 'xget_set tool', error)
   }
 
-  console.log('[pn-xget] active, instance =', readConfig().instance,
+  console.log('[dsh-xget] active, instance =', readConfig().instance,
     'enabled =', readConfig().enabled, 'bashExe =', bashExecutable)
   return undefined
 }
